@@ -21,7 +21,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../colors.css?v=35">
-  <link rel="stylesheet" href="../../portfolio.css?v=18">
+  <link rel="stylesheet" href="../../portfolio.css?v=23">
+  <link rel="stylesheet" href="../../review-lightbox.css?v=1">
 </head>
 
 <body id="top">
@@ -61,7 +62,7 @@
     <section class="pd-review" aria-label="Client review">
       <div class="wrap">
         <h2>Client Review</h2>
-        <a class="pd-review-link" href="http://www.fiverr.com/abdelazizsiela" target="_blank" rel="noopener" aria-label="Open the original client review for Steps">
+        <a class="pd-review-link" data-review-slug="steps" href="http://www.fiverr.com/abdelazizsiela" target="_blank" rel="noopener" aria-label="View the client review for Steps">
           <img class="pd-review-media" src="../../images/proof/steps/review.png" alt="Client review for Steps" loading="lazy">
         </a>
       </div>
@@ -221,6 +222,9 @@
     document.addEventListener('pointerleave', hide);
     window.addEventListener('blur', hide);
   })();  </script>
+
+  <script src="../../reviews.js?v=1"></script>
+  <script src="../../review-lightbox.js?v=1"></script>
 
 </body>
 </html>

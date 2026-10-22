@@ -251,6 +251,8 @@ p { margin: 0; }
   max-width: 640px;
   font-size: 1.15rem;
   color: var(--color-muted);
+  /* keep the paragraph on even lines instead of leaving a one-word last line */
+  text-wrap: pretty;
 }
 .pf-hero-lead strong { color: var(--color-text); }
 
@@ -314,6 +316,117 @@ p { margin: 0; }
 }
 .skill-name { font-weight: 500; }
 .skill-level { font-size: .82rem; color: var(--color-muted); white-space: nowrap; }
+
+/* ==========================================================================
+   YouTube channels I run
+   A static row of cards that reuses the client-review bar's look — same
+   16:9 frame, purple hover halo, caption and hover zoom — but it never
+   scrolls and is never duplicated. Drop the channel art in
+   images/portfolio/channels/ (suronix.png, can-with-code.png,
+   abdelaziz-siala.png) and it appears automatically.
+   ========================================================================== */
+.channels { margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+.channels-head {
+  margin-bottom: 1.75rem;
+  text-align: center;
+}
+.channels-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+.channels-note {
+  margin: .45rem 0 0;
+  font-size: .92rem;
+  color: var(--color-muted);
+}
+
+.channels-track {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.channel-card {
+  display: block;
+  flex: 0 1 clamp(250px, 30vw, 330px);
+  width: clamp(250px, 30vw, 330px);
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The round logo frame — the halo is positioned against it so the glow
+   lands exactly on the circle, not on the caption below. */
+.channel-media-wrap {
+  position: relative;
+  display: block;
+  width: 46%;
+  max-width: 150px;
+  min-width: 100px;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+  border-radius: 50%;
+}
+
+/* Purple gradient halo behind the logo — lights up on hover */
+.channel-media-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background:
+    radial-gradient(90% 90% at 50% 45%, var(--color-accent) 0%, var(--glow-accent) 45%, transparent 78%);
+  filter: blur(22px);
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+.channel-card:hover .channel-media-wrap::before { opacity: .12; }
+
+/* Circular channel logo — same frame + hover treatment as the review bar */
+.channel-media {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: var(--color-surface);
+  box-shadow: 0 10px 24px -18px var(--card-shadow);
+  transition: transform .35s cubic-bezier(.2, .8, .3, 1), box-shadow .35s ease;
+}
+.channel-card:hover .channel-media {
+  transform: scale(1.06);
+  border-color: var(--border-strong);
+  box-shadow: 0 0 10px var(--glow-accent-2), 0 14px 30px -20px var(--card-shadow);
+}
+
+.channel-title {
+  display: block;
+  margin: .9rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  text-align: center;
+}
+.channel-desc {
+  display: block;
+  margin: .3rem 0 0;
+  font-size: .88rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  text-align: center;
+}
 
 /* ==========================================================================
    Category / project sections

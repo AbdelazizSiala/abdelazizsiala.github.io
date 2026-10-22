@@ -1,0 +1,227 @@
+/* ==========================================================================
+   Client-review lightbox
+   ==========================================================================
+   Self-contained styles for the shared review popup. It is used by the
+   mentorship page (testimonial marquee) and by every project page that has a
+   client review, so it cannot depend on styles.css-only rules (the project
+   pages load portfolio.css instead). Everything here is prefixed with .rv-.
+
+   The popup opens from the clicked image (FLIP scale), blurs the page behind
+   it, and shows the review screenshot next to a video/screenshot carousel.
+   ========================================================================== */
+
+/* Shell ------------------------------------------------------------------- */
+.rv-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+}
+.rv-lightbox[hidden] { display: none; }
+
+/* Dimmed + blurred page behind the popup */
+.rv-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 11, 11, .55);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  opacity: 0;
+  transition:
+    opacity .35s ease,
+    -webkit-backdrop-filter .35s ease,
+    backdrop-filter .35s ease;
+}
+.rv-lightbox.is-open .rv-lightbox-backdrop {
+  opacity: 1;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.rv-lightbox-panel {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  width: min(1100px, 94vw);
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  box-shadow: 0 44px 90px -30px rgba(0, 0, 0, .75);
+  opacity: 0;
+  transition: transform .45s cubic-bezier(.2, .8, .3, 1), opacity .3s ease;
+  will-change: transform;
+}
+.rv-lightbox.is-open .rv-lightbox-panel { opacity: 1; }
+
+.rv-lightbox-close {
+  position: absolute;
+  top: .6rem;
+  right: .6rem;
+  z-index: 2;
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color .2s ease, transform .2s ease;
+}
+.rv-lightbox-close:hover {
+  border-color: var(--glow-accent);
+  transform: rotate(90deg);
+}
+
+.rv-lightbox-scroll {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); /* detail smaller | video/showcase bigger */
+  gap: 1rem;
+  align-items: start;
+  max-height: calc(100vh - 2 * clamp(1rem, 4vw, 2.5rem));
+  overflow-y: auto;
+  padding: .8rem;
+}
+
+/* Left column: title + review screenshot + "View Original Review" */
+.rv-lightbox-left {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+}
+.rv-lightbox-left .rv-lightbox-media { width: 100%; padding: 10px; box-sizing: border-box; }
+
+/* Title centered above the review image in the left column */
+.rv-lightbox-title {
+  margin: 0;
+  text-align: center;
+  font-family: inherit;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
+.rv-lightbox-media,
+.rv-lightbox-video {
+  display: block;
+  width: 100%;
+  border-radius: calc(var(--radius) - 4px);
+  border: 1px solid var(--border-soft);
+  background: var(--color-surface);
+}
+.rv-lightbox-video { aspect-ratio: 16 / 9; }
+
+.rv-lightbox-cta {
+  display: block;
+  width: max-content;
+  padding: .9rem 2.2rem;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.rv-lightbox-cta.is-hidden { display: none; }
+
+/* Carousel (right column) — mixes videos and screenshots ------------------ */
+.rv-gallery {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--color-surface);
+  box-shadow: 0 30px 80px -40px var(--card-shadow);
+}
+
+.rv-gallery-slides {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 2.4rem; /* leave room for the dot strip below the media */
+}
+
+.rv-gallery-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .45s ease;
+  pointer-events: none;
+}
+.rv-gallery-slide.is-active { opacity: 1; pointer-events: auto; }
+
+.rv-gallery-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  cursor: default;
+}
+.rv-gallery-slide video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* Prev / next arrows */
+.rv-gallery-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--overlay);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.rv-gallery-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+.rv-gallery-prev { left: 1rem; }
+.rv-gallery-next { right: 1rem; }
+
+/* Dots */
+.rv-gallery-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .15rem;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+}
+.rv-gallery-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--dot-chrome);
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.rv-gallery-dot.is-active { background: var(--color-accent); cursor: default; }
+
+/* Narrow screens: stack the columns */
+@media (max-width: 720px) {
+  .rv-lightbox-scroll { grid-template-columns: minmax(0, 1fr); }
+  .rv-lightbox-left { justify-content: flex-start; }
+}

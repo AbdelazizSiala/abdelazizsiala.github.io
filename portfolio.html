@@ -21,7 +21,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="colors.css?v=35">
-  <link rel="stylesheet" href="portfolio.css?v=21">
+  <link rel="stylesheet" href="portfolio.css?v=24">
+  <link rel="stylesheet" href="review-lightbox.css?v=1">
 </head>
 
 <body id="top">
@@ -49,11 +50,7 @@
         <div class="pf-hero-copy">
           <span class="eyebrow">Portfolio</span>
           <h1>Games I've <span class="accent">designed, built &amp; shipped</span></h1>
-          <p class="pf-hero-lead">
-            I'm <strong>Abdelaziz Siala</strong>, a game developer with <strong>8+ years of experience</strong> —
-            programmer for my indie team <strong>Suronix</strong> and game-dev tutor on my YouTube channel
-            <strong>Can With Code</strong>. Here's a selection of the work I'm most proud of.
-          </p>
+          <p class="pf-hero-lead">I'm <strong>Abdelaziz Siala</strong>, a game developer with <strong>8+ years of experience</strong>&nbsp;&mdash;&nbsp;programmer for my indie team <strong>Suronix</strong> and game-dev tutor on my YouTube channel <strong>Can With Code</strong>. Here's a selection of the work I'm most proud of.</p>
           <div class="pf-hero-actions">
             <a class="btn btn-lg" href="#about">Get to know me</a>
             <a class="btn btn-sm" href="#projects">Jump to projects</a>
@@ -105,6 +102,39 @@
               <div class="skill-row"><span class="skill-name">JavaScript</span><span class="skill-level">Intermediate</span></div>
               <div class="skill-row"><span class="skill-name">CSS</span><span class="skill-level">Intermediate</span></div>
             </div>
+          </div>
+        </div>
+
+        <!-- ---- YouTube channels I run ---- -->
+        <div class="channels">
+          <div class="channels-head">
+            <h3 class="channels-title">YouTube Channels I Run</h3>
+          </div>
+
+          <div class="channels-track">
+            <a class="channel-card" href="https://www.youtube.com/@Suronix" target="_blank" rel="noopener">
+              <span class="channel-media-wrap">
+                <img class="channel-media" src="images/portfolio/channels/suronix.png" alt="Suronix YouTube channel" data-placeholder-sub="channel art coming soon" data-placeholder-shape="square" loading="lazy" decoding="async">
+              </span>
+              <span class="channel-title">Suronix</span>
+              <span class="channel-desc">My indie game studio</span>
+            </a>
+
+            <a class="channel-card" href="https://www.youtube.com/@canwithcode" target="_blank" rel="noopener">
+              <span class="channel-media-wrap">
+                <img class="channel-media" src="images/portfolio/channels/can-with-code.png" alt="Can With Code YouTube channel" data-placeholder-sub="channel art coming soon" data-placeholder-shape="square" loading="lazy" decoding="async">
+              </span>
+              <span class="channel-title">Can With Code</span>
+              <span class="channel-desc">Game-dev tutorials</span>
+            </a>
+
+            <a class="channel-card" href="https://www.youtube.com/@AbdelazizSiala" target="_blank" rel="noopener">
+              <span class="channel-media-wrap">
+                <img class="channel-media" src="images/portfolio/channels/abdelaziz-siala.png" alt="Abdelaziz Siala YouTube channel" data-placeholder-sub="channel art coming soon" data-placeholder-shape="square" loading="lazy" decoding="async">
+              </span>
+              <span class="channel-title">Abdelaziz Siala</span>
+              <span class="channel-desc">Educational game-dev content</span>
+            </a>
           </div>
         </div>
       </div>
@@ -458,7 +488,9 @@
     </div>
   </footer>
 
-  <script src="main.js?v=35"></script>
+  <script src="reviews.js?v=1"></script>
+  <script src="review-lightbox.js?v=1"></script>
+  <script src="main.js?v=36"></script>
   <script src="portfolio-sorter.js?v=2"></script>
 
   <script>
@@ -467,24 +499,35 @@
        Drop a file at images/portfolio/<slug>/thumb.png (or shot_N.png on the
        detail pages) and the real image replaces the placeholder automatically. */
     (function () {
-      var SVG = function (label) {
+      var SVG = function (label, sub, square) {
         var encoded = label;
+        var h = square ? 640 : 360;
+        var cy = square ? 300 : 165;
+        var r1 = square ? 80 : 60;
+        var r2 = square ? 125 : 90;
+        var r3 = square ? 52 : 40;
+        var t1 = square ? 480 : 282;
+        var t2 = square ? 512 : 312;
         return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
-          '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="' + h + '" viewBox="0 0 640 ' + h + '">' +
           '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
           '<stop offset="0" stop-color="#151515"/><stop offset="1" stop-color="#0B0B0B"/>' +
           '</linearGradient></defs>' +
-          '<rect width="640" height="360" fill="url(#g)"/>' +
-          '<circle cx="320" cy="165" r="60" fill="none" stroke="#8B5CF6" stroke-opacity="0.35" stroke-width="2"/>' +
-          '<circle cx="320" cy="165" r="90" fill="none" stroke="#8B5CF6" stroke-opacity="0.18" stroke-width="2"/>' +
-          '<circle cx="320" cy="165" r="40" fill="#8B5CF6" fill-opacity="0.12"/>' +
-          '<text x="320" y="282" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#9A9A9A">' + encoded + '</text>' +
-          '<text x="320" y="312" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#6b6b6b">screenshot coming soon</text>' +
+          '<rect width="640" height="' + h + '" fill="url(#g)"/>' +
+          '<circle cx="320" cy="' + cy + '" r="' + r1 + '" fill="none" stroke="#8B5CF6" stroke-opacity="0.35" stroke-width="2"/>' +
+          '<circle cx="320" cy="' + cy + '" r="' + r2 + '" fill="none" stroke="#8B5CF6" stroke-opacity="0.18" stroke-width="2"/>' +
+          '<circle cx="320" cy="' + cy + '" r="' + r3 + '" fill="#8B5CF6" fill-opacity="0.12"/>' +
+          '<text x="320" y="' + t1 + '" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#9A9A9A">' + encoded + '</text>' +
+          '<text x="320" y="' + t2 + '" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#6b6b6b">' + (sub || 'screenshot coming soon') + '</text>' +
           '</svg>');
       };
       document.querySelectorAll('img').forEach(function (img) {
         img.addEventListener('error', function () {
-          var fallback = SVG(this.alt || 'Project');
+          var fallback = SVG(
+            this.alt || 'Project',
+            this.getAttribute('data-placeholder-sub'),
+            this.getAttribute('data-placeholder-shape') === 'square'
+          );
           if (this.src !== fallback) this.src = fallback;
         });
       });
